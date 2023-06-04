@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@500&family=Bruno+Ace+SC&family=Montserrat:wght@500&family=Open+Sans&family=Poppins&family=Roboto:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/stylesheet/style.css" />
+  </head>
+  <body id="hello1">
+    <form action="/send-data" method="post">
+      <div class="class">
+        <img src="./helo.png" alt="" height="80px" width="80px" />
+        <h1 class="h1">VISVAS Attendance Form</h1>
+      </div>
+      <div class="center">
+        <h2 class="h2">Coordinator Details</h2>
+        <div class="wrap1">
+          <div class="cont1 cont2">
+            <input  name="mobile" class="select" placeholder="Select your mobile number.." value="" id="search"
+            oninput="getValue()">
+              <!-- <span id="span"><i class="fa-solid fa-angle-down"></i></span> -->
+            </input>
+            <div class="div" id="div">
+              <div id="mobileDiv">
+                <% for (let index = 0; index < mobile_data.length; index++) { %>
+                <% if(mobile_data[index].COORDINATOR_MOBILE_NUMBER!== null ){ %>
+                <h5
+                  value="<%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>"
+                  class="h5"
+                >
+                  <%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>
+                </h5>
+                <% } %> <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="cont1">
+              <label for="">Email Address </label>
+              <input
+                type="text"
+                placeholder="Auto Populated..."
+                disabled
+                name="email"
+                id="email"
+              />
+            </div>
+            <div class="cont1">
+              <label for="">Full Name </label>
+              <input
+                type="text"
+                placeholder="Auto Populated..."
+                disabled
+                name="name"
+                id="name"
+              />
+            </div>
+          </div>
+          <!-- <div class="input">
+          <label>Location *</label>
+          <input type="text" />
+        </div> -->
+        </div>
+        <h2 class="h2 h9">Chanting Details</h2>
+        <div class="wrap2 wrap3">
+          <div class="flex-column1">
+            <label>Chanting Type </label>
+            <select name="chanting_type" id="chanting_type">
+              <% for (let index = 0; index < select_data.length; index++) { %>
+              <% if( select_data[index].chanting_name!==null) {%>
+              <option value="<%= index+1 %>">
+                <%= select_data[index].chanting_name %>
+              </option>
+              <% } %> <% } %>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label>Chanting Sub Type</label>
+            <select name="chanting_sub_type" id="chanting_subtype">
+              <option value="0">None</option>
+            </select>
+          </div>
+        </div>
+        <div class="wrap2 wrap4">
+          <div class="flex-column1">
+            <label>Chanting Batch </label>
+            <select name="chanting_batch" id="">
+              <option value="0">A Batch</option>
+              <option value="1">B Batch</option>
+              <option value="2">C Batch</option>
+              <option value="2">D Batch</option>
+            </select>
+          </div>
+          <div class="flex-column">
+            <label>Chanting Sub Batch </label>
+            <input
+              type="number"
+              placeholder="Only Numbers"
+              required
+              name="chanting_sub_batch"
+            />
+          </div>
+        </div>
+        <div class="wrap2 wrap5">
+          <div class="flexy1">
+            <label>Participants Count </label>
+            <input
+              type="number"
+              placeholder="Only Numbers"
+              name="participants_count"
+            />
+          </div>
+          <div class="flexy1">
+            <label>Kids Count </label>
+            <input
+              type="number"
+              class="kid-input"
+              placeholder="Only Numbers"
+              name="kids_count"
+            />
+          </div>
+          <div class="flexy1">
+            <label>Avanthi's Chanted </label>
+            <input
+              type="number"
+              placeholder="Only Numbers"
+              name="avanthi_chanted"
+            />
+          </div>
+        </div>
+        <div>
+          <div class="input2 wrapy1">
+            <label for="">Google Link </label>
+            <input type="text" name="google_link" />
+          </div>
+        </div>
+        <div class="wrap2 wrap6">
+          <div class="wrapy1">
+            <label for="">Special Notes</label>
+            <textarea
+              name="text"
+              id=""
+              cols="60"
+              rows="10"
+              name="textarea"
+            ></textarea>
+          </div>
+          <div class="wrapy1 input1">
+            <label for="">Chanting Date </label>
+            <input type="date" name="chanting_date" />
+          </div>
+        </div>
+        <div class="button">
+          <button>Submit</button>
+        </div>
+      </div>
+    </form>
+    <script>
+      function _(element) {
+        return document.getElementById(element);
+      }
+      const h5 = document.querySelectorAll(".h5");
+      auto_populate(h5);
+      const numbers = [];
+      h5.forEach((el) => numbers.push(el.getAttribute("value")));
+      function getValue() {
+        let textvalue = _("search").value;
+        let arr = [];
+        arr = numbers.filter((el) => {
+          return el.startsWith(textvalue);
+        });
+        if (arr.length) {
+          arr = arr
+            .map((data) => `<h5 class='h6' value='${data}'>${data}</h5>`)
+            .join("");
+        } else {
+          arr = "<h5 class='notAllowed'>No data found</h5>";
+        }
+        _("mobileDiv").innerHTML = `${arr}`;
+        const h6 = document.querySelectorAll(".h6");
+        auto_populate(h6);
+      }
+      function auto_populate(h5) {
+        h5.forEach((el) => {
+          el.addEventListener("click", async (e) => {
+            _("search").value = e.target.innerHTML;
+            _("search").onclick = () => {
+              _("div").classList.toggle("show");
+            };
+            _("div").classList.remove("show");
+            const response = await fetch(
+              `/get_data_mobile?parent_value=${e.target.innerHTML}`
+            );
+            const data = await response.json();
+            _(
+              "name"
+            ).placeholder = `${data[0].coordinator_second_name} ${data[0].coordinator_first_name} `;
+            _("email").placeholder = `${data[0].coordinator_email_address}`;
+          });
+        });
+      }
+      _("search").onclick = () => {
+        _("div").classList.toggle("show");
+      };
+      _("chanting_type").onchange = async (e) => {
+        const child_value = _("chanting_subtype");
+        const response = await fetch(
+          `/get_data_options?parent_value=${e.target.value}`
+        );
+        const data = await response.json();
+        var html = "";
+        if (data.data.length !== 0) {
+          data.data.forEach((element) => {
+            html += `<option value=${element.chanting_sub_name}>${element.chanting_sub_name}</option>`;
+          });
+        } else {
+          html = "<option value='none'>None</option>";
+        }
+        child_value.innerHTML = html;
+      };
+    </script>
+  </body>
+</html>
