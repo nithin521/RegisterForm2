@@ -2,11 +2,40 @@ body {
   margin: 0;
   background-color: #f9f5f6;
   font-family: "Roboto";
+  overflow-x: hidden;
+  border: 10px solid #e11299;
 }
+img {
+  height: 100px;
+  width: 100px;
+}
+.spanning {
+  position: relative;
+}
+span {
+  /* align-items: center; */
+  margin: 10px 0;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: small;
+  color: red;
+  font-weight: 500;
+}
+
 label {
   font-weight: 700;
   font-size: 1.25rem;
   width: 150px;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 h5 {
   border-bottom: 1px solid grey;
@@ -14,20 +43,9 @@ h5 {
   margin: 0;
   cursor: pointer;
 }
-/* span {
-  position: absolute;
-  top: 20%;
-  right: 5%;
-} */
 select,
 input {
-  margin-left: 20px;
   width: 200px;
-  height: 40px;
-  border-radius: 4px;
-  outline: none;
-}
-select {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -38,6 +56,16 @@ select {
   background-color: #fff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
+select,
+input {
+  margin-left: 20px;
+  height: 40px;
+  border-radius: 4px;
+  outline: none;
+  padding: 0px 5px 0;
+  text-align: left;
+}
+
 select:hover {
   border-color: #999;
 }
@@ -55,54 +83,46 @@ select option {
 h5:hover {
   background-color: #ccc;
 }
-input {
-  border: 1px solid gray;
+.img1 {
+  height: 225px !important;
+  width: 225px !important;
+  margin: 30px 30px 0px !important;
 }
 h1 {
   margin: auto;
 }
 input::placeholder {
-  color: grey;
+  color: black;
 }
 textarea {
   width: 80%;
-}
-input:invalid {
-  border: 1px solid red;
-  animation: hello 1s both;
-}
-@keyframes hello {
-  0% {
-    transform: translateX(10px);
-  }
-  50% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  outline: none !important;
 }
 #search {
   width: 355px;
   background-color: #f5efe7;
-  margin: 10px 0px;
-  padding: 5px 10px;
+  margin: 10px 1px;
+  padding: 5px;
   border: 1px solid black;
   align-items: normal;
 }
+#chanting_subtype,
+#chanting_type,
+#chanting_batch {
+  border: 2px solid lightgreen;
+}
 .input2 input {
-  max-width: 100vw;
-  width: 60%;
+  width: 90%;
   height: 55px;
   margin-top: 15px;
 }
-.wrap6 input {
+/* .wrap6 input {
   margin-top: 10px;
-}
-.wrap6 label,
+} */
+/* .wrap6 label,
 .wrap6 textarea {
   margin-left: 20px;
-}
+} */
 .flex-column input {
   margin-right: 0;
 }
@@ -123,8 +143,14 @@ input:invalid {
   width: 200px;
   height: 40px;
 }
+.class img {
+  margin: 20px 40px 20px 20px;
+  height: 200px;
+  width: 200px;
+}
 .wrapy1 {
   width: 98%;
+  flex: 0.33;
 }
 .notAllowed {
   cursor: not-allowed;
@@ -133,9 +159,7 @@ input:invalid {
   display: flex;
   align-items: center;
 }
-.class img {
-  margin: 20px 0px 20px 20px;
-}
+
 .h2 {
   text-align: center;
 }
@@ -164,20 +188,28 @@ input:invalid {
 .label,
 .button button,
 .glassy,
-.flexy1 {
+.flexy1,
+.hj,
+.loc,
+.wrap6,
+span {
   display: flex;
   align-items: center;
+}
+
+.hj {
+  align-items: center;
+  /* flex-direction: column; */
 }
 .wrap1 {
   justify-content: space-between;
   padding-bottom: 10px;
   border-bottom: 1px solid black;
-  height: 220px;
+  height: 245px;
 }
 .wrap1 .cont2,
 .wrap1 .cont1 {
   margin-left: 70px;
-  flex: 0.5;
 }
 .flex-column {
   flex: 0.5;
@@ -197,11 +229,25 @@ input:invalid {
   display: inline-block;
   margin-left: 0;
 }
+.loc input {
+  width: 300px !important;
+  margin-left: 0;
+}
+.loc {
+  margin-bottom: 40px;
+}
 .column {
   flex: 0.5;
   flex-direction: column;
   justify-content: center;
   height: 100%;
+}
+.wrap1 .cont1 {
+  flex: 0.5;
+}
+.loc {
+  flex: 0.33;
+  justify-content: center;
 }
 .wrap5,
 .wrap6 {
@@ -238,6 +284,9 @@ input:invalid {
 .wrap2 {
   flex-wrap: wrap;
 }
+
+/* Media Queries */
+
 @media (max-width: 1124px) and (min-width: 900px) {
   .input1,
   .glassy {
@@ -252,6 +301,7 @@ input:invalid {
     margin-bottom: 40px;
   }
 }
+
 @media (max-width: 900px) {
   #h4 {
     width: 95%;
@@ -260,7 +310,8 @@ input:invalid {
     height: auto;
   }
   .wrapy1 input {
-    margin-left: 20px;
+    margin-left: 0px;
+    width: 55%;
   }
   .wrap2 {
     flex-wrap: wrap;
@@ -289,8 +340,21 @@ input:invalid {
   .column .cont1 {
     margin: 10px 0;
   }
+  .class img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  .img1 {
+    margin-top: 10px !important;
+  }
 }
 @media (max-width: 650px) {
+  label {
+    width: 140px;
+  }
+  #search {
+    width: 340px;
+  }
   #h4 {
     width: 95%;
   }
@@ -306,9 +370,21 @@ input:invalid {
   .wrap4 {
     padding-bottom: 50px;
   }
+  .class img {
+    width: 75px !important;
+    height: 75px !important;
+  }
+  .hj {
+    align-items: center;
+    flex-direction: column;
+  }
+  h1 {
+    font-size: x-large;
+  }
   select,
   input {
     margin-left: 0;
+    width: 190px;
   }
   .wrap6 input,
   .wrap6 textarea {
@@ -320,8 +396,8 @@ input:invalid {
   .flexy1 input {
     margin-left: 0;
   }
-  .input2 {
-    margin-left: 10px;
+  textarea {
+    width: 70%;
   }
   .wrap3,
   .wrap4 {

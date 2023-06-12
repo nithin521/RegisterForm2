@@ -3,75 +3,71 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const path = require("path");
+const { check } = require("express-validator");
+
+const get_name_email = require("./controllers/get_name_email");
+const get_options = require("./controllers/get-options");
+const get_mobile = require("./controllers/get_mobile");
+const send_data = require("./controllers/send_data");
+
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "public")));
+
 //Getting Coordinator mobile numbers from db
-app.get("/", (req, res) => {
-  database.query("call project.get_mobile_number();", (err, data) => {
-    database.query("call project.get_selections();", (err, data1) => {
-      res.render("index", { mobile_data: data[0], select_data: data1[0] });
-    });
-  });
-});
+app.get("/", get_mobile);
 
 //for auto population
-app.get("/get_data_mobile", (req, res) => {
-  const parent_value = req.query.parent_value;
-  const query = `call project.get_name_email(${parent_value});`;
-  database.query(query, (err, response) => {
-    if (err) throw res.status(404).send("Wrong Mobile Number");
-    res.status(200).json(response[0]);
-  });
-});
+app.get("/get_data_mobile", get_name_email);
 
 // for changing child element based on parent selction
 
-app.get("/get_data_options", (req, res) => {
-  const parent_value = req.query.parent_value;
-  database.query(`call project.get_options(${parent_value});`, (err, data) => {
-    console.log(data[0]);
-    res.json({ data: data[0] });
-  });
-});
-
-app.get("/send-data", (req, res) => {
-  res.redirect("/");
-});
+app.get("/get_data_options", get_options);
 
 //sending input values from html to db (updating db with the inputs entered by the client)
-app.post("/send-data", (req, res) => {
-  console.log(req.body);
-  const {
-    mobile,
-    chanting_type,
-    chanting_subtype,
-    sub_batch,
-    chanting_batch,
-    participants_count,
-    kids_count,
-    avanthi_chanted,
-    chanting_date,
-    google_link,
-    text,
-  } = req.body;
-  const query = `SELECT COORDINATOR_NAME,COORDINATOR_EMAIL_ADDRESS FROM mydb.table1 WHERE COORDINATOR_MOBILE_NUMBER=${select}`;
-  database.query(query, (err, response) => {
-    if (err) throw err.sqlMessage;
-    else {
-      const sql = `insert into mydb.chanting2(coordinator_mobile_number,coordinator_email_address,coordinator_name,chanting_type,chanting_sub_type,chanting_batch,chanting_batch_number,kid_count,participant_count,aavarthi_chanted,special_notes,google_meet_link,date_time) values ('${select}','${response[0].COORDINATOR_EMAIL_ADDRESS}','${response[0].COORDINATOR_NAME}','${chanting_type}','${chanting_subtype}','${chanting_batch}','${sub_batch}','${kids_count}','${participants_count}','${avanthi_chanted}','${text}','${google_link}','${chanting_date}')`;
-      database.query(sql, (err, data) => {
-        if (err) {
-          throw err;
-        }
-        console.log("inserted into table");
-      });
-      res.redirect("/");
-    }
-  });
-});
 
-app.listen(3001, () => {
+app.post(
+  "/",
+  [
+    check("mobile")
+      .notEmpty()
+      .withMessage("Mobile Number is Required")
+      .isLength({ min: 10, max: 10 })
+      .withMessage("Number must be of 10 digits"),
+    check("chanting_date").notEmpty().withMessage("Select date and time"),
+    check("chanting_sub_batch").notEmpty().withMessage(" Cannnot be empty"),
+    check("chating_date").notEmpty().withMessage("Select a date and time"),
+    check("participants_count")
+      .notEmpty()
+      .withMessage("Cannot be empty")
+      .isLength({ min: 1, max: 8 })
+      .withMessage("Range is between 1 and 8"),
+    check("kids_count")
+      .notEmpty()
+      .withMessage("Cannot be empty")
+      .isLength({ min: 1, max: 8 })
+      .withMessage("Range is between 1 and 8"),
+    check("avanthi_chanted")
+      .notEmpty()
+      .withMessage("Cannot be empty")
+      .isLength({ min: 1, max: 8 })
+      .withMessage("Range is between 1 and 8"),
+    check("location")
+      .notEmpty()
+      .isAlpha()
+      .withMessage("Location must be of alphabets ")
+      .isLength({ min: 3 })
+      .withMessage("Name must be of 3 characters"),
+    check("google_link")
+      .notEmpty()
+      .withMessage("Link cant be empty & Must be a url")
+      .isURL()
+      .withMessage("Link must be a url"),
+  ],
+  send_data
+);
+
+app.listen(process.env.PORT || 3000, () => {
   console.log("Listening on port 3000");
 });

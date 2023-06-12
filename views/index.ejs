@@ -21,31 +21,58 @@
     />
     <link rel="stylesheet" href="/stylesheet/style.css" />
   </head>
-  <body id="hello1">
-    <form action="/send-data" method="post">
+  <body>
+    <form action="/" method="post" autocomplete="off">
       <div class="class">
-        <img src="./helo.png" alt="" height="80px" width="80px" />
+        <img
+          src="https://as2.ftcdn.net/v2/jpg/00/36/05/61/1000_F_36056164_jt2Y7gUU32F5aqdeo8b9FkmT4jwVQ3M0.jpg"
+          alt=""
+          class="img1"
+        />
         <h1 class="h1">VISVAS Attendance Form</h1>
+        <img
+          src="https://www.visvasvsn.org/assets/img/logo.png"
+          alt="image"
+          srcset=""
+        />
       </div>
       <div class="center">
         <h2 class="h2">Coordinator Details</h2>
         <div class="wrap1">
           <div class="cont1 cont2">
-            <input  name="mobile" class="select" placeholder="Select your mobile number.." value="" id="search"
-            oninput="getValue()">
-              <!-- <span id="span"><i class="fa-solid fa-angle-down"></i></span> -->
-            </input>
-            <div class="div" id="div">
-              <div id="mobileDiv">
-                <% for (let index = 0; index < mobile_data.length; index++) { %>
-                <% if(mobile_data[index].COORDINATOR_MOBILE_NUMBER!== null ){ %>
-                <h5
-                  value="<%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>"
-                  class="h5"
-                >
-                  <%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>
-                </h5>
-                <% } %> <% } %>
+            <div class="hj">
+              <label for="">Mobile Number</label>
+              <div>
+                <input
+                  name="mobile"
+                  class="select input"
+                  placeholder="Select your mobile number.."
+                  value=""
+                  id="search"
+                  oninput="getFiltered(this)"
+                  type="number"
+                  pattern="[0-9]{10}"
+                />
+
+                <div class="div" id="div">
+                  <div id="mobileDiv">
+                    <% for (let index = 0; index < mobile_data.length; index++)
+                    { %> <% if(mobile_data[index].COORDINATOR_MOBILE_NUMBER!==
+                    null ){ %>
+                    <h5
+                      value="<%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>"
+                      class="h5"
+                    >
+                      <%= mobile_data[index].COORDINATOR_MOBILE_NUMBER %>
+                    </h5>
+                    <% } %> <% } %>
+                  </div>
+                </div>
+                <% if(typeof errors.mobile !== 'undefined'){ %>
+                <div class="spanning">
+                  <span id="ms"><%= errors.mobile.msg %> </span>
+                </div>
+                <% } %>
               </div>
             </div>
           </div>
@@ -71,10 +98,6 @@
               />
             </div>
           </div>
-          <!-- <div class="input">
-          <label>Location *</label>
-          <input type="text" />
-        </div> -->
         </div>
         <h2 class="h2 h9">Chanting Details</h2>
         <div class="wrap2 wrap3">
@@ -99,74 +122,141 @@
         <div class="wrap2 wrap4">
           <div class="flex-column1">
             <label>Chanting Batch </label>
-            <select name="chanting_batch" id="">
-              <option value="0">A Batch</option>
-              <option value="1">B Batch</option>
-              <option value="2">C Batch</option>
-              <option value="2">D Batch</option>
+            <select name="chanting_batch" id="chanting_batch">
+              <% for (let index = 0; index < batch_opt.length; index++) {%>
+              <option value="<%= index+1 %>">
+                <%= batch_opt[index].BATCH_NAME %>
+              </option>
+              <%} %>
             </select>
           </div>
           <div class="flex-column">
             <label>Chanting Sub Batch </label>
-            <input
-              type="number"
-              placeholder="Only Numbers"
-              required
-              name="chanting_sub_batch"
-            />
+            <div>
+              <input
+                type="number"
+                name="chanting_sub_batch"
+                id="chanting_sub_batch"
+                class="input"
+              />
+              <% if(typeof errors.chanting_sub_batch !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="csbs"><%= errors.chanting_sub_batch.msg %> </span>
+              </div>
+              <% } %>
+            </div>
           </div>
         </div>
         <div class="wrap2 wrap5">
           <div class="flexy1">
             <label>Participants Count </label>
-            <input
-              type="number"
-              placeholder="Only Numbers"
-              name="participants_count"
-            />
+            <div>
+              <input
+                type="number"
+                name="participants_count"
+                id="participants_count"
+                class="input"
+              />
+              <% if(typeof errors.participants_count !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="pcs"><%= errors.participants_count.msg %> </span>
+              </div>
+              <% } %>
+            </div>
           </div>
           <div class="flexy1">
             <label>Kids Count </label>
-            <input
-              type="number"
-              class="kid-input"
-              placeholder="Only Numbers"
-              name="kids_count"
-            />
+            <div>
+              <input
+                type="number"
+                class="kid-input input"
+                name="kids_count"
+                id="kids_count"
+              />
+              <% if(typeof errors.kids_count !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="kcs"><%= errors.kids_count.msg %> </span>
+              </div>
+              <% } %>
+            </div>
           </div>
           <div class="flexy1">
             <label>Avanthi's Chanted </label>
-            <input
-              type="number"
-              placeholder="Only Numbers"
-              name="avanthi_chanted"
-            />
+            <div>
+              <input
+                type="number"
+                name="avanthi_chanted"
+                id="a_count"
+                class="input"
+              />
+              <% if(typeof errors.avanthi_chanted !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="acs"><%= errors.avanthi_chanted.msg %> </span>
+              </div>
+              <% } %>
+            </div>
           </div>
         </div>
-        <div>
-          <div class="input2 wrapy1">
-            <label for="">Google Link </label>
-            <input type="text" name="google_link" />
-          </div>
-        </div>
-        <div class="wrap2 wrap6">
+        <div class="wrap6">
           <div class="wrapy1">
             <label for="">Special Notes</label>
             <textarea
               name="text"
-              id=""
+              id="special_notes"
               cols="60"
-              rows="10"
+              rows="8"
               name="textarea"
             ></textarea>
           </div>
+
           <div class="wrapy1 input1">
             <label for="">Chanting Date </label>
-            <input type="date" name="chanting_date" />
+            <div>
+              <input type="datetime-local" name="chanting_date" id="date" />
+              <% if(typeof errors.chanting_date !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="cds"><%= errors.chanting_date.msg %> </span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+          <div class="input2 wrapy1">
+            <label for="">Google Link </label>
+            <div>
+              <input
+                type="text"
+                class="input"
+                name="google_link"
+                id="url"
+                placeholder="Meeting Link..."
+              />
+              <% if(typeof errors.google_link !== 'undefined'){ %>
+              <div class="spanning">
+                <span id="gls"><%= errors.google_link.msg %> </span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div class="loc">
+          <label>Location</label>
+          <div>
+            <input
+              type="text"
+              placeholder="Location..."
+              name="location"
+              id="location"
+              class="input"
+            />
+            <% if(typeof errors.location !== 'undefined'){ %>
+            <div class="spanning">
+              <span id="ls"><%= errors.location.msg %> </span>
+            </div>
+            <% } %>
           </div>
         </div>
         <div class="button">
-          <button>Submit</button>
+          <button id="submit">Submit</button>
         </div>
       </div>
     </form>
@@ -174,13 +264,23 @@
       function _(element) {
         return document.getElementById(element);
       }
-      const h5 = document.querySelectorAll(".h5");
+
+      const h5 = [...document.querySelectorAll(".h5")];
       auto_populate(h5);
       const numbers = [];
       h5.forEach((el) => numbers.push(el.getAttribute("value")));
-      function getValue() {
+
+      function getFiltered(e) {
+        _("search").setAttribute("value", e.value);
+        let number = e.value;
         let textvalue = _("search").value;
         let arr = [];
+        //limiting upto 10digits
+        if (e.value.length > Number(e.max)) {
+          e.value = e.value.slice(0, 10);
+        }
+
+        //Filtering based on input
         arr = numbers.filter((el) => {
           return el.startsWith(textvalue);
         });
@@ -194,29 +294,56 @@
         _("mobileDiv").innerHTML = `${arr}`;
         const h6 = document.querySelectorAll(".h6");
         auto_populate(h6);
-      }
-      function auto_populate(h5) {
-        h5.forEach((el) => {
-          el.addEventListener("click", async (e) => {
-            _("search").value = e.target.innerHTML;
-            _("search").onclick = () => {
-              _("div").classList.toggle("show");
-            };
-            _("div").classList.remove("show");
+
+        _("ms").innerHTML = "";
+        if (!numbers.includes(e.value)) {
+          _("email").setAttribute("placeholder", "");
+          _("name").setAttribute("placeholder", "");
+        }
+
+        //auto populating on pressing enter
+        _("search").addEventListener("keyup", async (event) => {
+          if (event.key === "Enter") {
             const response = await fetch(
-              `/get_data_mobile?parent_value=${e.target.innerHTML}`
+              `/get_data_mobile?parent_value=${event.target.value}`
             );
             const data = await response.json();
             _(
               "name"
             ).placeholder = `${data[0].coordinator_second_name} ${data[0].coordinator_first_name} `;
+            _("name").style.background = "#98D8AA";
             _("email").placeholder = `${data[0].coordinator_email_address}`;
+            _("email").style.background = "#98D8AA";
+            _("div").classList.remove("show");
+          }
+        });
+      }
+
+      //autopopulate from selecting from dropdown
+      function auto_populate(h5) {
+        h5.forEach((el) => {
+          el.addEventListener("click", async (e) => {
+            _("search").value = e.target.innerHTML.trim();
+            _("div").classList.remove("show");
+            const response = await fetch(
+              `/get_data_mobile?parent_value=${e.target.innerHTML.trim()}`
+            );
+            const data = await response.json();
+            _(
+              "name"
+            ).placeholder = `${data[0].coordinator_second_name} ${data[0].coordinator_first_name} `;
+            _("name").style.background = "#98D8AA";
+            _("email").placeholder = `${data[0].coordinator_email_address}`;
+            _("email").style.background = "#98D8AA";
           });
         });
       }
+
       _("search").onclick = () => {
         _("div").classList.toggle("show");
       };
+
+      //getting chanting_sub_type dropdown from db
       _("chanting_type").onchange = async (e) => {
         const child_value = _("chanting_subtype");
         const response = await fetch(
@@ -225,14 +352,46 @@
         const data = await response.json();
         var html = "";
         if (data.data.length !== 0) {
+          let index = 0;
           data.data.forEach((element) => {
-            html += `<option value=${element.chanting_sub_name}>${element.chanting_sub_name}</option>`;
+            html += `<option value=${++index}>${
+              element.chanting_sub_name
+            }</option>`;
           });
         } else {
           html = "<option value='none'>None</option>";
         }
         child_value.innerHTML = html;
       };
+
+      //Removing span errors
+      function removerError(name, classList) {
+        name.oninput = () => {
+          classList.innerHTML = "";
+        };
+      }
+      removerError(_("participants_count"), _("pcs"));
+      removerError(_("a_count"), _("acs"));
+      removerError(_("kids_count"), _("kcs"));
+      removerError(_("url"), _("gls"));
+      removerError(_("location"), _("ls"));
+
+      _("date").onchange = (e) => {
+        _("date").setAttribute("value", e.target.value);
+        _("cds").innerHTML = "";
+      };
+
+      // prevent form submit on enter
+      const input = [...document.getElementsByClassName("input")];
+      input.map((el) => {
+        el.addEventListener("keypress", (e) => {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) {
+            e.preventDefault();
+            return false;
+          }
+        });
+      });
     </script>
   </body>
 </html>
