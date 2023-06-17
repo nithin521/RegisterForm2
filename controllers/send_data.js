@@ -36,7 +36,6 @@ const send_data = (req, res) => {
       if (err) {
         throw err.sqlMessage;
       } else {
-        console.log("enter in db");
         const query1 = "call project.get_last_id();";
         database.query(query1, (err, response1) => {
           let email = response[0][0].coordinator_email_address;
